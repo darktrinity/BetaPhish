@@ -21,8 +21,11 @@ var betaPhish;
 var signature;
 var fisher;
 var paralax = [];
-var life = [];
+var lives = [];
+var liveContainer;
 
+
+var myFont;
 
 var selected = -1;
 
@@ -57,10 +60,13 @@ function preload() {
 	
 	for (var i=1; i<= 4; i++) {
 		paralax[i]= loadImage("assets/home_mtn_"+i+".png");
+		
 	}
-	life[1]= loadImage("assets/life-12.png");
-	life[2]= loadImage("assets/life-2.png");
-	life[3]= loadImage("assets/life-3.png");
+	liveContainer = loadImage("assets/score-container.png");
+	
+	lives[1]= loadImage("assets/life-1.png");
+	lives[2]= loadImage("assets/life-2.png");
+	lives[3]= loadImage("assets/life-3.png");
 	
 	test = loadImage("assets/Comp 1/Comp 1_00000.png");
 	btn1 = createImg("assets/btn1.png","btn1");
@@ -69,6 +75,8 @@ function preload() {
 	resultImg = loadImage("assets/test.png");
 	percentage = loadImage("assets/percentageActive.png");
 	bar = loadImage("assets/percentage.png"); 
+	
+	myFont = loadFont ("assets/fonts/mangat.ttf");
 }
 
 function setup() {
@@ -89,7 +97,7 @@ function initGame() {
 	image(betaPhish,width - 450,10);
 	image(signature,50,height - 100);
 	image(fisher,200,300);
-	image(life[2],200,300);
+	//image(lives[2],200,300);
 
 	//buttons
 	btn1.position(width - 350,10 + 400).mouseOver(buttons1On);
@@ -198,13 +206,16 @@ function endScreen(win){
 function game() {
 	background(color(160, 221, 250));
 	textSize(20);
+	textFont(myFont);
 	text(score,10,30);
-	text(fish.life,640,30);
-	//for (var i=1; i<= 3; i++) {
-	image(fisher,200,300);
-	image(life[1],200,300);
-	//}
-	
+	text("Lives:",480,70);
+	for (var i=1; i<= 3; i++) {
+		image(liveContainer,550 + ((i-1)*75),35,60,60);
+	}
+	for (var i=1; i<= fish.life; i++) {
+		image(lives[i],540 + ((i-1)*75),25,75,75);
+	}
+
 	//bait
 	if (frameCount % 10000 == 0) {
 		globalSpeed = globalSpeed + 1;
