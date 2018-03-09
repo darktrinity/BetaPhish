@@ -1,0 +1,10 @@
+"https://uozone2.uottawa.ca/",true
+"https://uozone2.uottavva.ca/",false
+"subject:Please respond urgently",false
+"Canada_Revenue_Agency@isis.ocn.ne.jp",false
+"noreply@noreply.cibc.com",true
+"shipment-tracking@amazon.ca",true
+"amazon@gmail.com",false
+"please enter send the following info: name, age, SIN",false
+"Your account has been compromised click here to reset your password: Log in to confirm your account",false
+"Dear Customer", false
