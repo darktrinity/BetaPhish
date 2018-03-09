@@ -27,9 +27,8 @@ function Bait(index) {
 		} else if(this.highlight && !this.isBait[index]) {
 			fill(0,255,0);//correct
 		}
-		//rect(this.x, this.y, this.baitx, this.baity);
+		rect(this.x, this.y, this.baitx, this.baity);
 		//image("assets/Comp 1/Comp 1_00000.png",this.x,this.y);
-		ellipse(this.x, this.y,this.baitx,this.baity);
 	}
 	
 	this.crash = function () {
