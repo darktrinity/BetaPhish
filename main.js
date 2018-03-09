@@ -201,16 +201,24 @@ function game() {
 			
 		}
 		if (bait[i].offscreen()) { //removes when off screen
-				if (bait[i].isBait[bait[i].index] == false && bait[i].eaten == false) {
-					score += 100;
-					correctSound.play();
-				} else if (bait[i].isBait[bait[i].index] == true && bait[i].eaten == false){
-					score -= 100;
-					//fish.takeDmg();
-					incorrectSound.play();
-				}
-				bait.splice(i,1);
-				bait.push(new Bait(floor(random(numText - 1))));
+			if (i == selected) selected = -1;
+			if (bait[i].isBait[bait[i].index] == false && bait[i].eaten == false) {
+				score += 100;
+					
+				push();
+				correctSound.play();
+				pop();
+					
+			} else if (bait[i].isBait[bait[i].index] == true && bait[i].eaten == false){
+				score -= 100;
+				//fish.takeDmg();
+					
+				push();
+				incorrectSound.play();
+				push();
+			}
+			bait.splice(i,1);
+			bait.push(new Bait(floor(random(numText - 1))));
 		}
 		if (shark.hits(fish)) {
 			//fish.takeDmg();
@@ -236,11 +244,19 @@ function game() {
 			bait[current].gotEaten();
 			if (bait[current].isBait[bait[current].index] == true){
 				score += 100;
+				
+				push();
 				correctSound.play();
+				pop();
+				
 			} else {
 				score -= 100;
 				fish.takeDmg() ; //eat bait
+				
+				push();
 				incorrectSound.play();
+				pop();
+				
 				bait[current].crash();
 			}
 			selected = -1;
@@ -253,7 +269,11 @@ function game() {
 			} else {
 				score -= 100;
 				fish.takeDmg() ; //eat bait
+				
+				push();
 				incorrectSound.play();
+				pop();
+				
 				bait[current].crash();
 			}
 			selected = -1;

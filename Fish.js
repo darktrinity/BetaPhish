@@ -15,6 +15,7 @@ function Fish() {
 	this.show = function () {
 		fill(255);
 		rect(this.x, this.y, this.fishx, this.fishy);
+		image("assets/Comp 1/Comp 1_00000.png",this.x,this.y);
 	}
 	this.setX = function(x){
 		this.x = x;
