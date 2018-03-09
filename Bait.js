@@ -19,7 +19,7 @@ function Bait(index) {
 	
 	this.eaten = false;
 	this.incorrect = false;
-
+	
 	this.show = function () {
 		fill(100);
 		if (this.highlight && this.isBait[index]) {
@@ -27,8 +27,8 @@ function Bait(index) {
 		} else if(this.highlight && !this.isBait[index]) {
 			fill(0,255,0);//correct
 		}
-		rect(this.x, this.y, this.baitx, this.baity);
-		//image("assets/Comp 1/Comp 1_00000.png",this.x,this.y);
+		//rect(this.x, this.y, this.baitx, this.baity);
+		image(test,this.x-50,this.y-50,this.baitx+75,this.baity+ 120);
 	}
 	
 	this.crash = function () {

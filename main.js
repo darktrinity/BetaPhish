@@ -19,6 +19,10 @@ var incorrectSound  = new Audio("sounds/incorrect.wav");
 //var signature = new Image("assets/thanh-wordmark.png");
 var betaPhish;
 var signature;
+var fisher;
+var paralax = [];
+var life = [];
+
 
 var selected = -1;
 
@@ -44,9 +48,21 @@ var startBtn;
 var button1On = false;
 var resultImg;
 
+var test;
+
 function preload() {
 	betaPhish = loadImage("assets/logo-xl.png");
 	signature = loadImage("assets/thanh-wordmark.png");
+	fisher = loadImage("assets/fisherman.png");
+	
+	for (var i=1; i<= 4; i++) {
+		paralax[i]= loadImage("assets/home_mtn_"+i+".png");
+	}
+	life[1]= loadImage("assets/life-12.png");
+	life[2]= loadImage("assets/life-2.png");
+	life[3]= loadImage("assets/life-3.png");
+	
+	test = loadImage("assets/Comp 1/Comp 1_00000.png");
 	btn1 = createImg("assets/btn1.png","btn1");
 	btn2 =  createImg("assets/btn2.png","btn2");
 	btn3 =  createImg("assets/btn3.png","btn3");
@@ -65,13 +81,21 @@ function initGame() {
 	fill(255);
 	background(color(245, 245, 220));
 	gameState = 0;
+	
+	for (var i=1; i<= 4; i++) {
+		image(paralax[i],mouseX - (i * 2),25,1280,300);
+	}
+	
 	image(betaPhish,width - 450,10);
 	image(signature,50,height - 100);
+	image(fisher,200,300);
+	image(life[2],200,300);
+
 	//buttons
 	btn1.position(width - 350,10 + 400).mouseOver(buttons1On);
 	btn2.position(width - 350,10 + 500).mouseOver(buttons2On);
 	btn3.position(width - 350,10 + 600).mouseOver(buttons3On);;
-	noLoop();
+	loop();
 }
 
 //Home menu button actions
@@ -176,6 +200,10 @@ function game() {
 	textSize(20);
 	text(score,10,30);
 	text(fish.life,640,30);
+	//for (var i=1; i<= 3; i++) {
+	image(fisher,200,300);
+	image(life[1],200,300);
+	//}
 	
 	//bait
 	if (frameCount % 10000 == 0) {
