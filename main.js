@@ -29,6 +29,10 @@ var safe;
 var btn1;
 var btn2;
 var btn3;
+
+var playAgain;
+var mainMenu;
+
 var bar;
 var reverse;
 var mountains = [];
@@ -94,6 +98,15 @@ function preload() {
 	btn1 = createImg("assets/btn1.png","btn1");
 	btn2 =  createImg("assets/btn2.png","btn2");
 	btn3 =  createImg("assets/btn3.png","btn3");
+	btn1.hide();
+	btn2.hide();
+	btn3.hide();
+	
+	playAgain = createImg("assets/btn1.png","btn4");
+	mainMenu =  createImg("assets/btn2.png","btn5");
+	playAgain.hide();
+	mainMenu.hide();
+	
 	//resultImg = loadImage("assets/test.png");
 	percentage = loadImage("assets/percentageActive.png");
 	bar = loadImage("assets/percentage.png"); 
@@ -108,6 +121,8 @@ function setup() {
 
 ///////////////////////////////////////////
 function initGame() {
+	playAgain.hide();
+	mainMenu.hide();
 	fill(255);
 	background(color(245, 245, 220));
 	gameState = 0;
@@ -122,6 +137,9 @@ function initGame() {
 	image(fisher,fisherX,fisherY);
 
 	//buttons
+	btn1 = createImg("assets/btn1.png","btn1");
+	btn2 =  createImg("assets/btn2.png","btn2");
+	btn3 =  createImg("assets/btn3.png","btn3");
 	btn1.position(width - 350,10 + 400).mouseOver(buttons1On);
 	btn2.position(width - 350,10 + 500).mouseOver(buttons2On);
 	btn3.position(width - 350,10 + 600).mouseOver(buttons3On);
@@ -131,7 +149,7 @@ function initGame() {
 //Home menu button actions
 function buttons1On(){
 	btn1.hide();
-	btn1 = createImg("assets/btn1-active.png","btn1").position(width - 350,10 + 400).mousePressed(levelSelect).mouseOut(buttons1Off);
+	btn1 = createImg("assets/btn1-active.png","btn1").position(width - 350,10 + 400).mousePressed(setupGame).mouseOut(buttons1Off);
 }
 
 function buttons1Off(){
@@ -141,7 +159,7 @@ function buttons1Off(){
 
 function buttons2On(){
 	btn2.hide();
-	btn2 = createImg("assets/btn2-active.png","btn2").position(width - 350,10 + 500).mousePressed(levelSelect).mouseOut(buttons2Off);
+	btn2 = createImg("assets/btn2-active.png","btn2").position(width - 350,10 + 500).mousePressed(setupGame).mouseOut(buttons2Off);
 }
 
 function buttons2Off(){
@@ -151,20 +169,33 @@ function buttons2Off(){
 
 function buttons3On(){
 	btn3.hide();
-	btn3 = createImg("assets/btn3-active.png","btn3").position(width - 350,10 + 600).mousePressed(levelSelect).mouseOut(buttons3Off);
+	btn3 = createImg("assets/btn3-active.png","btn3").position(width - 350,10 + 600).mousePressed(setupGame).mouseOut(buttons3Off);
 }
 
 function buttons3Off(){
 	btn3.hide();
 	btn3 = createImg("assets/btn3.png","btn3").position(width - 350,10 + 600).mouseOver(buttons3On);
 }
+
+function initGame2() {
+	mainMenu.hide();
+	gameState = 0;
+	for (var i=0; i< bait.length; i++) {
+		bait[i].killBait();
+	}
+	fish.killBait();
+	initGame();
+	noLoop();
+}
 ///////////////////////////////////////////
 
-
+/*
 function levelSelect() {
 	btn1.remove();
 	btn2.remove();
 	btn3.remove();
+	playAgain.remove();
+	mainMenu.remove();
 	
 	gameState = 1;
 	background(color(245, 245, 220));
@@ -178,6 +209,7 @@ function levelSelect() {
 	levelStart.mousePressed(setupGame);
 	noLoop();
 }
+*/
 
 function levelSelect2() {
 	levelStart.hide();
@@ -186,20 +218,17 @@ function levelSelect2() {
 		bait[i].killBait();
 	}
 	fish.killBait();
-	background(color(245, 245, 220));
-	textSize(150);
-	title = "LEVEL SELECT";
-	fill(255);
-	tw = textWidth(title);
-	text(title, (width - tw)/2, height/2 - 40);
-	levelStart = createButton('Level 1');
-	levelStart.position(width/2 - levelStart.width/2, height/2);
-	levelStart.mousePressed(setupGame);
+	levelSelect();
 	noLoop();
 }
 
 function setupGame(){
-	levelStart.hide();
+	btn1.remove();
+	btn2.remove();
+	btn3.remove();
+	playAgain.remove();
+	mainMenu.remove();
+	//levelStart.hide();
 	score = 0;
 	life = 3;
 	bait = [];
@@ -213,7 +242,7 @@ function setupGame(){
 	loop();
 }
 
-////////////////////////////
+////////////////////////////////////////////////////
 function endScreen(win){
 	background(color(245, 245, 220));
 	textSize(150);
@@ -228,40 +257,42 @@ function endScreen(win){
 			image(rewardScreen[2], 0, 0);
 		} else if (fish.life == 1) {
 			image(rewardScreen[1], 0, 0);
-		}
+		} 
 	} else if (!win) image(rewardScreen[0], 0, 0);
 	fill(255);
+	//title = "Congratulations";
 	//tw = textWidth(title);
 	//text(title, (width - tw)/2, height/2 - 40);
-	levelStart = createButton('Play Again');
-	levelStart.position(width/2 - levelStart.width/2, height/2);
-	levelStart.mousePressed(levelSelect2);
 	
-	btn1.position(width - 350,10 + 400).mouseOver(PlayAgainOn);
-	btn2.position(width - 350,10 + 500).mouseOver(mainMenuOn);
+	playAgain.show();
+	mainMenu.show();
+	playAgain = createImg("assets/btn1.png","btn4");
+	mainMenu =  createImg("assets/btn2.png","btn5");
+	playAgain.position(width - 350,10 + 400).mouseOver(playAgainOn);
+	mainMenu.position(width - 350,10 + 500).mouseOver(mainMenuOn);
 	noLoop();
 }
 
 function playAgainOn(){
-	btn1.hide();
-	btn1 = createImg("assets/btn1-active.png","btn1").position(width - 350,10 + 400).mousePressed(levelSelect).mouseOut(buttons1Off);
+	playAgain.hide();
+	playAgain = createImg("assets/btn1-active.png","btn1").position(width - 350,10 + 400).mousePressed(initGame2).mouseOut(playAgainOff);
 }
 
 function playAgainOff(){
-	btn1.hide();
-	btn1 = createImg("assets/btn1.png","btn1").position(width - 350,10 + 400).mouseOver(buttons1On);
+	playAgain.hide();
+	playAgain = createImg("assets/btn1.png","btn1").position(width - 350,10 + 400).mouseOver(playAgainOn);
 }
 
 function mainMenuOn(){
-	btn2.hide();
-	btn2 = createImg("assets/btn2-active.png","btn2").position(width - 350,10 + 500).mousePressed(levelSelect).mouseOut(buttons2Off);
+	mainMenu.hide();
+	mainMenu = createImg("assets/btn2-active.png","btn2").position(width - 350,10 + 500).mousePressed(initGame2).mouseOut(mainMenuOff);
 }
 
 function mainMenuOff(){
-	btn2.hide();
-	btn2 = createImg("assets/btn2.png","btn2").position(width - 350,10 + 500).mouseOver(buttons2On);
+	mainMenu.hide();
+	mainMenu = createImg("assets/btn2.png","btn2").position(width - 350,10 + 500).mouseOver(mainMenuOn);
 }
-///////////////////
+///////////////////////////////////////////////////////
            
 function game() {
 	background(color(245, 245, 220));
@@ -293,7 +324,6 @@ function game() {
 		} else if (bait[i].hits(fish) && bait[i].eaten == false && fish.selected == false && bait[i] && bait[i].incorrect == false){
 			textSize(20);
 			//text(bait[i].texts[bait[i].index], 10, 60);
-
 			current = i;
 			fish.on();
 			
@@ -339,8 +369,8 @@ function game() {
 		fill(0,0,0);
 		image(testquestions[selected], width/2, height/2);
 		testquestions[selected].resize(850,600);
-		text(bait[selected].isBait[selected], 10, 90);
-		text(selected, 10, 150);
+		//text(bait[selected].isBait[selected], 10, 90);
+		//text(selected, 10, 150);
 		image(safe,(width/4)*3 + 200,height/2);//a
 		image(spam,(width/4) - 200,height/2);//d
 		imageMode(CORNER);
