@@ -2,7 +2,7 @@
 var fish;
 var shark;
 var eel;
-var bait = [];
+
 
 //key binds
 var w = 87; 
@@ -23,7 +23,8 @@ var fisher;
 var paralax = [];
 var lives = [];
 var liveContainer;
-
+var rewardScreen = [];
+var baitFish = [];
 
 var myFont;
 
@@ -52,23 +53,36 @@ var button1On = false;
 var resultImg;
 
 var test;
+var paralax;
+
+
+var fisherX = 200;
+var fisherY = 300;
 
 function preload() {
 	betaPhish = loadImage("assets/logo-xl.png");
 	signature = loadImage("assets/thanh-wordmark.png");
 	fisher = loadImage("assets/fisherman.png");
-	
 	for (var i=1; i<= 4; i++) {
-		paralax[i]= loadImage("assets/home_mtn_"+i+".png");
-		
+		paralax[i]= loadImage("assets/home_mtn_"+i+".png");	
 	}
 	liveContainer = loadImage("assets/score-container.png");
 	
-	lives[1]= loadImage("assets/life-1.png");
-	lives[2]= loadImage("assets/life-2.png");
-	lives[3]= loadImage("assets/life-3.png");
+	for (var i=1; i<= 3; i++) {
+		lives[i]= loadImage("assets/life-"+i+".png");
+	}
 	
-	test = loadImage("assets/Comp 1/Comp 1_00000.png");
+	for (var i=0; i< 4; i++) {
+		rewardScreen[i]= loadImage("assets/score-"+i+".png");	
+	}
+	
+	//for (var i=0; i< 30; i++) {
+		//baitFish[i] = createSprite(400, 150, 50, 100);
+		//loadImage("assets/Comp 1/Comp 1_"+i+".png");
+	//}	
+	
+	
+	//test = loadImage("assets/Comp 1/Comp 1_00000.png");
 	btn1 = createImg("assets/btn1.png","btn1");
 	btn2 =  createImg("assets/btn2.png","btn2");
 	btn3 =  createImg("assets/btn3.png","btn3");
@@ -91,19 +105,22 @@ function initGame() {
 	gameState = 0;
 	
 	for (var i=1; i<= 4; i++) {
-		image(paralax[i],mouseX - (i * 2),25,1280,300);
+		image(paralax[i],0 - (i * 2),0,1300,300);
 	}
+	
 	
 	image(betaPhish,width - 450,10);
 	image(signature,50,height - 100);
-	image(fisher,200,300);
+	image(fisher,fisherX,fisherY);
+	//fisherX -= 10;
+	//fisherY = fisherY - (mouseY* .8);
 	//image(lives[2],200,300);
 
 	//buttons
 	btn1.position(width - 350,10 + 400).mouseOver(buttons1On);
 	btn2.position(width - 350,10 + 500).mouseOver(buttons2On);
 	btn3.position(width - 350,10 + 600).mouseOver(buttons3On);;
-	loop();
+	noLoop();
 }
 
 //Home menu button actions
@@ -145,7 +162,7 @@ function levelSelect() {
 	btn3.remove();
 	
 	gameState = 1;
-	background(color(160, 221, 250));
+	background(color(245, 245, 220));
 	textSize(150);
 	title = "LEVEL SELECT";
 	fill(255);
@@ -160,7 +177,7 @@ function levelSelect() {
 function levelSelect2() {
 	levelStart.hide();
 	gameState = 1;
-	background(color(160, 221, 250));
+	background(color(245, 245, 220));
 	textSize(150);
 	title = "LEVEL SELECT";
 	fill(255);
@@ -188,14 +205,19 @@ function setupGame(){
 }
 
 function endScreen(win){
-	background(color(160, 221, 250));
+	background(color(245, 245, 220));
 	textSize(150);
+	
+	for (var i=1; i<= 4; i++) {
+		image(paralax[i],0 - (i * 2),0,1300,300);
+	}
+	
 	if (win) {
-		title = "Congratulation";
-	} else if (!win) title = "You lose";
+		image(rewardScreen[3], 0, 0);
+	} else if (!win) image(rewardScreen[0], 0, 0);
 	fill(255);
-	tw = textWidth(title);
-	text(title, (width - tw)/2, height/2 - 40);
+	//tw = textWidth(title);
+	//text(title, (width - tw)/2, height/2 - 40);
 	levelStart = createButton('Play Again');
 	levelStart.position(width/2 - levelStart.width/2, height/2);
 	levelStart.mousePressed(levelSelect2);
@@ -204,7 +226,7 @@ function endScreen(win){
 
 
 function game() {
-	background(color(160, 221, 250));
+	background(color(245, 245, 220));
 	textSize(20);
 	textFont(myFont);
 	text(score,10,30);
@@ -256,6 +278,7 @@ function game() {
 				incorrectSound.play();
 				push();
 			}
+			bait[i].remove();
 			bait.splice(i,1);
 			bait.push(new Bait(floor(random(numText - 1))));
 		}
@@ -361,9 +384,9 @@ function game() {
 	
 	if (score >= 1000) {
 		endScreen(true);
-	}//else if( fish.life <= 0) {
-		//endScreen(false);
-	//}
+	}else if( fish.life <= 0) {
+		endScreen(false);
+	}
 	
 }
 
@@ -381,9 +404,9 @@ function draw() {
 		if (score >= 1000) {
 			endScreen(true);
 		}
-		//else if( fish.life <= 0) {
-			//endScreen(false);
-		//}
+		else if( fish.life <= 0) {
+			endScreen(false);
+		}
 	}
 }
 /*

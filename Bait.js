@@ -20,6 +20,18 @@ function Bait(index) {
 	this.eaten = false;
 	this.incorrect = false;
 	
+	this.spriteB = createSprite(this.x,this.y,this.baitx+75,this.baity+120);
+	this.spriteB.addAnimation("moving", "assets/Comp 1/Comp 1_0.png", "assets/Comp 1/Comp 1_1.png", "assets/Comp 1/Comp 1_2.png",
+		"assets/Comp 1/Comp 1_3.png", "assets/Comp 1/Comp 1_4.png", "assets/Comp 1/Comp 1_5.png",
+		"assets/Comp 1/Comp 1_6.png", "assets/Comp 1/Comp 1_7.png", "assets/Comp 1/Comp 1_8.png",
+		"assets/Comp 1/Comp 1_9.png", "assets/Comp 1/Comp 1_10.png", "assets/Comp 1/Comp 1_11.png",
+		"assets/Comp 1/Comp 1_12.png", "assets/Comp 1/Comp 1_13.png", "assets/Comp 1/Comp 1_14.png",
+		"assets/Comp 1/Comp 1_15.png", "assets/Comp 1/Comp 1_16.png", "assets/Comp 1/Comp 1_17.png",
+		"assets/Comp 1/Comp 1_18.png", "assets/Comp 1/Comp 1_19.png", "assets/Comp 1/Comp 1_20.png",
+		"assets/Comp 1/Comp 1_21.png", "assets/Comp 1/Comp 1_22.png", "assets/Comp 1/Comp 1_23.png",
+		"assets/Comp 1/Comp 1_24.png", "assets/Comp 1/Comp 1_25.png", "assets/Comp 1/Comp 1_26.png",
+		"assets/Comp 1/Comp 1_27.png", "assets/Comp 1/Comp 1_28.png", "assets/Comp 1/Comp 1_29.png");
+	this.spriteB.changeAnimation("moving");
 	this.show = function () {
 		fill(100);
 		if (this.highlight && this.isBait[index]) {
@@ -27,8 +39,9 @@ function Bait(index) {
 		} else if(this.highlight && !this.isBait[index]) {
 			fill(0,255,0);//correct
 		}
-		//rect(this.x, this.y, this.baitx, this.baity);
-		image(test,this.x-50,this.y-50,this.baitx+75,this.baity+ 120);
+		drawSprites();
+		//image(baitFish[i],this.x-50,this.y-50,this.baitx+75,this.baity+ 120);
+
 	}
 	
 	this.crash = function () {
@@ -59,7 +72,9 @@ function Bait(index) {
 	
 	this.update = function () {
 		this.x -= this.speed;
+		this.spriteB.position.x = this.x;
 		this.y -= 1 * sin(this.x * 3 * PI / 180);
+		this.spriteB.position.y = this.y;
 	}
 	
 	this.offscreen = function () {
