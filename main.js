@@ -99,18 +99,18 @@ function preload() {
 	spam = loadImage("assets/btn-spam.png");
 	safe = loadImage("assets/btn-safe.png");
 	
-	btn1 = createImg("assets/btn1.png","btn1");
-	btn2 =  createImg("assets/btn2.png","btn2");
+	btn1 = createImg("assets/btn1Play.png","btn1");
+	btn2 =  createImg("assets/btn2Controls.png","btn2");
 	btn3 =  createImg("assets/btn3.png","btn3");
 	btn1.hide();
 	btn2.hide();
 	btn3.hide();
 	
-	playAgain = createImg("assets/btn1.png","btn4");
+	playAgain = createImg("assets/btn1Play.png","btn4");
 	mainMenu =  createImg("assets/btn2.png","btn5");
 	
 	controls = loadImage("assets/Controls.png");
-	backBtn = createImg("assets/btn3.png","btn6");
+	backBtn = createImg("assets/btn3Back.png","btn6");
 	backBtn.hide();
 	
 	playAgain.hide();
@@ -131,7 +131,7 @@ function setup() {
 ///////////////////////////////////////////
 function initGame() {
 	playAgain.remove();
-	mainMenu.remove();
+	//mainMenu.remove();
 	backBtn.remove();
 	
 	fill(255);
@@ -148,34 +148,34 @@ function initGame() {
 	image(fisher,fisherX,fisherY);
 
 	//buttons
-	btn1 = createImg("assets/btn1.png","btn1");
-	btn2 =  createImg("assets/btn2.png","btn2");
-	btn3 =  createImg("assets/btn3.png","btn3");
+	btn1 = createImg("assets/btn1Play.png","btn1");
+	btn2 =  createImg("assets/btn2Controls.png","btn2");
+	//btn3 =  createImg("assets/btn3.png","btn3");
 	btn1.position(width - 350,10 + 400).mouseOver(buttons1On);
 	btn2.position(width - 350,10 + 500).mouseOver(buttons2On);
-	btn3.position(width - 350,10 + 600).mouseOver(buttons3On);
+	//btn3.position(width - 350,10 + 600).mouseOver(buttons3On);
 	noLoop();
 }
 
 //Home menu button actions
 function buttons1On(){
 	btn1.hide();
-	btn1 = createImg("assets/btn1-active.png","btn1").position(width - 350,10 + 400).mousePressed(setupGame).mouseOut(buttons1Off);
+	btn1 = createImg("assets/btn1-activePlay.png","btn1").position(width - 350,10 + 400).mousePressed(setupGame).mouseOut(buttons1Off);
 }
 
 function buttons1Off(){
 	btn1.hide();
-	btn1 = createImg("assets/btn1.png","btn1").position(width - 350,10 + 400).mouseOver(buttons1On);
+	btn1 = createImg("assets/btn1Play.png","btn1").position(width - 350,10 + 400).mouseOver(buttons1On);
 }
 
 function buttons2On(){
 	btn2.hide();
-	btn2 = createImg("assets/btn2-active.png","btn2").position(width - 350,10 + 500).mousePressed(controlScreen).mouseOut(buttons2Off);
+	btn2 = createImg("assets/btn2-activeControls.png","btn2").position(width - 350,10 + 500).mousePressed(controlScreen).mouseOut(buttons2Off);
 }
 
 function buttons2Off(){
 	btn2.hide();
-	btn2 = createImg("assets/btn2.png","btn2").position(width - 350,10 + 500).mouseOver(buttons2On);
+	btn2 = createImg("assets/btn2Controls.png","btn2").position(width - 350,10 + 500).mouseOver(buttons2On);
 }
 
 function buttons3On(){
@@ -210,19 +210,19 @@ function controlScreen() {
 	image(controls,0,0);
 
 	//buttons
-	backBtn = createImg("assets/btn1.png","btn6");
+	backBtn = createImg("assets/btn3Back.png","btn6");
 	backBtn.position(0 + 25, 0 + 25).mouseOver(backOn);
 	noLoop();
 }
 
 function backOn(){
 	backBtn.hide();
-	backBtn = createImg("assets/btn1-active.png","btn1").position(0 + 25, 0 + 25).mousePressed(initGame).mouseOut(backOff);
+	backBtn = createImg("assets/btn3-activeBack.png","btn6").position(0 + 25, 0 + 25).mousePressed(initGame).mouseOut(backOff);
 }
 
 function backOff(){
 	backBtn.hide();
-	backBtn = createImg("assets/btn1.png","btn1").position(0 + 25, 0 + 25).mouseOver(backOn);
+	backBtn = createImg("assets/btn3Back.png","btn6").position(0 + 25, 0 + 25).mouseOver(backOn);
 }
 ///////////////////////////////////////////
 /*
@@ -301,22 +301,22 @@ function endScreen(win){
 	//text(title, (width - tw)/2, height/2 - 40);
 	
 	playAgain.show();
-	mainMenu.show();
-	playAgain = createImg("assets/btn1.png","btn4");
-	mainMenu =  createImg("assets/btn2.png","btn5");
+	//mainMenu.show();
+	playAgain = createImg("assets/btn1Play.png","btn4");
+	//mainMenu =  createImg("assets/btn2.png","btn5");
 	playAgain.position(width - 350,10 + 400).mouseOver(playAgainOn);
-	mainMenu.position(width - 350,10 + 500).mouseOver(mainMenuOn);
+	//mainMenu.position(width - 350,10 + 500).mouseOver(mainMenuOn);
 	noLoop();
 }
 
 function playAgainOn(){
 	playAgain.hide();
-	playAgain = createImg("assets/btn1-active.png","btn1").position(width - 350,10 + 400).mousePressed(initGame2).mouseOut(playAgainOff);
+	playAgain = createImg("assets/btn1-activePlay.png","btn1").position(width - 350,10 + 400).mousePressed(initGame2).mouseOut(playAgainOff);
 }
 
 function playAgainOff(){
 	playAgain.hide();
-	playAgain = createImg("assets/btn1.png","btn1").position(width - 350,10 + 400).mouseOver(playAgainOn);
+	playAgain = createImg("assets/btn1Play.png","btn1").position(width - 350,10 + 400).mouseOver(playAgainOn);
 }
 
 function mainMenuOn(){
