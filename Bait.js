@@ -88,5 +88,3 @@ function Bait(index) {
 	
 
 }
-//movement of bait
-//fishing line

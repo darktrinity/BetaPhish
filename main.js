@@ -15,8 +15,6 @@ var correctSound = new Audio("sounds/correct.wav");
 var incorrectSound  = new Audio("sounds/incorrect.wav");
 
 //images
-//var betaPhish = new Image("assets/logo-xl.png");
-//var signature = new Image("assets/thanh-wordmark.png");
 var betaPhish;
 var signature;
 var fisher;
@@ -24,7 +22,7 @@ var paralax = [];
 var lives = [];
 var liveContainer;
 var rewardScreen = [];
-var baitFish = [];
+var bait = [];
 
 var myFont;
 
@@ -47,7 +45,6 @@ var tw;
 
 var globalSpeed = 1;
 var startBtn;
-//var startBtn = document.createElement("IMG");
 
 var button1On = false;
 var resultImg;
@@ -272,6 +269,7 @@ function game() {
 				push();
 			}
 			//bait[i].remove();
+			//bait[i].spriteB.visible = false;
 			bait.splice(i,1);
 			bait.push(new Bait(floor(random(numText - 1))));
 		}
@@ -335,45 +333,9 @@ function game() {
 		}
 	}
 	
-	//shark enemy
-	//shark.update(fish);
-	//shark.show();
-	
-	//eel
-	//eel.update(fish);
-	//eel.show();
-	
 	//mouse movements
 	fish.setX(mouseX - 50);
 	fish.setY(mouseY - 30);
-	
-	/* wasd movement
-	if (keyIsDown(w) && keyIsDown(d)){ 
-		fish.upRight();
-	}
-	if (keyIsDown(w) && keyIsDown(a)){
-		fish.upLeft();
-	}
-	if (keyIsDown(s) && keyIsDown(d)){
-		fish.downRight();
-	}
-	if (keyIsDown(s) && keyIsDown(a)){
-		fish.downLeft();
-	}
-	
-	if (keyIsDown(w) && (!keyIsDown(a) || !keyIsDown(d))) {
-		fish.up();
-	}
-	if (keyIsDown(s) && (!keyIsDown(a) || !keyIsDown(d))) {
-		fish.down();
-	}
-	if (keyIsDown(a) && (!keyIsDown(w) || !keyIsDown(s))) {
-		fish.left();
-	}
-	if (keyIsDown(d)&& (!keyIsDown(w) || !keyIsDown(s))) {
-		fish.right();
-	}
-	*/
 	
 	if (score >= 1000) {
 		endScreen(true);
@@ -402,23 +364,6 @@ function draw() {
 		}
 	}
 }
-/*
-function keyTyped () {
-	if (key == ' ') { 
-		if (bait[current].hits(fish) && bait[current].eaten == false) {
-			bait[current].gotEaten();
-			if (bait[current].isBait[bait[current].index] == true){
-				score += 100;
-				correctSound.play();
-			} else {
-				score -= 100;
-				//fish.takeDmg() ; //eat bait
-				incorrectSound.play();
-				bait[current].crash();
-			}
-		}
-	}
-}*/
 
 function keyTyped() {
 	if (key == ' '){
