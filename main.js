@@ -278,7 +278,7 @@ function game() {
 				incorrectSound.play();
 				push();
 			}
-			bait[i].remove();
+			//bait[i].remove();
 			bait.splice(i,1);
 			bait.push(new Bait(floor(random(numText - 1))));
 		}
