@@ -32,6 +32,8 @@ function Bait(index) {
 		"assets/Comp 1/Comp 1_24.png", "assets/Comp 1/Comp 1_25.png", "assets/Comp 1/Comp 1_26.png",
 		"assets/Comp 1/Comp 1_27.png", "assets/Comp 1/Comp 1_28.png", "assets/Comp 1/Comp 1_29.png");
 	this.spriteB.changeAnimation("moving");
+	this.spriteB.scale = .35;
+	
 	this.show = function () {
 		fill(100);
 		if (this.highlight && this.isBait[index]) {
