@@ -76,13 +76,6 @@ function preload() {
 		rewardScreen[i]= loadImage("assets/score-"+i+".png");	
 	}
 	
-	//for (var i=0; i< 30; i++) {
-		//baitFish[i] = createSprite(400, 150, 50, 100);
-		//loadImage("assets/Comp 1/Comp 1_"+i+".png");
-	//}	
-	
-	
-	//test = loadImage("assets/Comp 1/Comp 1_00000.png");
 	btn1 = createImg("assets/btn1.png","btn1");
 	btn2 =  createImg("assets/btn2.png","btn2");
 	btn3 =  createImg("assets/btn3.png","btn3");
