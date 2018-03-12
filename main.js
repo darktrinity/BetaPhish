@@ -26,6 +26,10 @@ var bait = [];
 var percentage;
 var spam;
 var safe;
+
+var controls;
+var backBtn;
+
 var btn1;
 var btn2;
 var btn3;
@@ -104,6 +108,11 @@ function preload() {
 	
 	playAgain = createImg("assets/btn1.png","btn4");
 	mainMenu =  createImg("assets/btn2.png","btn5");
+	
+	controls = loadImage("assets/Controls.png");
+	backBtn = createImg("assets/btn3.png","btn6");
+	backBtn.hide();
+	
 	playAgain.hide();
 	mainMenu.hide();
 	
@@ -121,8 +130,10 @@ function setup() {
 
 ///////////////////////////////////////////
 function initGame() {
-	playAgain.hide();
-	mainMenu.hide();
+	playAgain.remove();
+	mainMenu.remove();
+	backBtn.remove();
+	
 	fill(255);
 	background(color(245, 245, 220));
 	gameState = 0;
@@ -159,7 +170,7 @@ function buttons1Off(){
 
 function buttons2On(){
 	btn2.hide();
-	btn2 = createImg("assets/btn2-active.png","btn2").position(width - 350,10 + 500).mousePressed(setupGame).mouseOut(buttons2Off);
+	btn2 = createImg("assets/btn2-active.png","btn2").position(width - 350,10 + 500).mousePressed(controlScreen).mouseOut(buttons2Off);
 }
 
 function buttons2Off(){
@@ -188,7 +199,32 @@ function initGame2() {
 	noLoop();
 }
 ///////////////////////////////////////////
+function controlScreen() {
+	btn1.remove();
+	btn2.remove();
+	btn3.remove();
+	fill(255);
+	background(color(245, 245, 220));
+	gameState = 0;
+	
+	image(controls,0,0);
 
+	//buttons
+	backBtn = createImg("assets/btn1.png","btn6");
+	backBtn.position(0 + 25, 0 + 25).mouseOver(backOn);
+	noLoop();
+}
+
+function backOn(){
+	backBtn.hide();
+	backBtn = createImg("assets/btn1-active.png","btn1").position(0 + 25, 0 + 25).mousePressed(initGame).mouseOut(backOff);
+}
+
+function backOff(){
+	backBtn.hide();
+	backBtn = createImg("assets/btn1.png","btn1").position(0 + 25, 0 + 25).mouseOver(backOn);
+}
+///////////////////////////////////////////
 /*
 function levelSelect() {
 	btn1.remove();
