@@ -23,21 +23,27 @@ var lives = [];
 var liveContainer;
 var rewardScreen = [];
 var bait = [];
-
-var myFont;
-
-var selected = -1;
-
+var percentage;
+var spam;
+var safe;
 var btn1;
 var btn2;
 var btn3;
 var bar;
-var percentage;
+var reverse;
+var mountains = [];
+
+var testquestions = [];
+
+//fonts
+var myFont;
+
+var selected = -1;
 
 var title;
 
 var current = -1;
-var numText = 10;
+var numText = 14;
 var score = 0;
 
 var gameState = 0;
@@ -66,6 +72,8 @@ function preload() {
 	for (var i=1; i<= 4; i++) {
 		paralax[i]= loadImage("assets/home_mtn_"+i+".png");	
 	}
+	reverse = loadImage("assets/home_mtn_3 -reverse.png");	
+	
 	liveContainer = loadImage("assets/score-container.png");
 	
 	for (var i=1; i<= 3; i++) {
@@ -76,10 +84,17 @@ function preload() {
 		rewardScreen[i]= loadImage("assets/score-"+i+".png");	
 	}
 	
+	for (var i=0; i< 15; i++) {
+		testquestions[i]= loadImage("assets/PhishingTest/test_"+i+".png");	
+	}
+	
+	spam = loadImage("assets/btn-spam.png");
+	safe = loadImage("assets/btn-safe.png");
+	
 	btn1 = createImg("assets/btn1.png","btn1");
 	btn2 =  createImg("assets/btn2.png","btn2");
 	btn3 =  createImg("assets/btn3.png","btn3");
-	resultImg = loadImage("assets/test.png");
+	//resultImg = loadImage("assets/test.png");
 	percentage = loadImage("assets/percentageActive.png");
 	bar = loadImage("assets/percentage.png"); 
 	
@@ -105,14 +120,11 @@ function initGame() {
 	image(betaPhish,width - 450,10);
 	image(signature,50,height - 100);
 	image(fisher,fisherX,fisherY);
-	//fisherX -= 10;
-	//fisherY = fisherY - (mouseY* .8);
-	//image(lives[2],200,300);
 
 	//buttons
 	btn1.position(width - 350,10 + 400).mouseOver(buttons1On);
 	btn2.position(width - 350,10 + 500).mouseOver(buttons2On);
-	btn3.position(width - 350,10 + 600).mouseOver(buttons3On);;
+	btn3.position(width - 350,10 + 600).mouseOver(buttons3On);
 	noLoop();
 }
 
@@ -201,16 +213,22 @@ function setupGame(){
 	loop();
 }
 
+////////////////////////////
 function endScreen(win){
 	background(color(245, 245, 220));
 	textSize(150);
-	
 	for (var i=1; i<= 4; i++) {
 		image(paralax[i],0 - (i * 2),0,1300,300);
 	}
 	
 	if (win) {
-		image(rewardScreen[3], 0, 0);
+		if (fish.life == 3) {
+			image(rewardScreen[3], 0, 0);
+		} else if (fish.life == 2) {
+			image(rewardScreen[2], 0, 0);
+		} else if (fish.life == 1) {
+			image(rewardScreen[1], 0, 0);
+		}
 	} else if (!win) image(rewardScreen[0], 0, 0);
 	fill(255);
 	//tw = textWidth(title);
@@ -218,21 +236,46 @@ function endScreen(win){
 	levelStart = createButton('Play Again');
 	levelStart.position(width/2 - levelStart.width/2, height/2);
 	levelStart.mousePressed(levelSelect2);
+	
+	btn1.position(width - 350,10 + 400).mouseOver(PlayAgainOn);
+	btn2.position(width - 350,10 + 500).mouseOver(mainMenuOn);
 	noLoop();
 }
 
+function playAgainOn(){
+	btn1.hide();
+	btn1 = createImg("assets/btn1-active.png","btn1").position(width - 350,10 + 400).mousePressed(levelSelect).mouseOut(buttons1Off);
+}
 
+function playAgainOff(){
+	btn1.hide();
+	btn1 = createImg("assets/btn1.png","btn1").position(width - 350,10 + 400).mouseOver(buttons1On);
+}
+
+function mainMenuOn(){
+	btn2.hide();
+	btn2 = createImg("assets/btn2-active.png","btn2").position(width - 350,10 + 500).mousePressed(levelSelect).mouseOut(buttons2Off);
+}
+
+function mainMenuOff(){
+	btn2.hide();
+	btn2 = createImg("assets/btn2.png","btn2").position(width - 350,10 + 500).mouseOver(buttons2On);
+}
+///////////////////
+           
 function game() {
 	background(color(245, 245, 220));
 	textSize(20);
 	textFont(myFont);
-	text(score,10,30);
-	text("Lives:",480,70);
+	fill(0, 0, 0);
+	image(reverse,0,0 - 100,1300,300);
+	text(score,10,60);
+	text("Lives:",480,60);
 	for (var i=1; i<= 3; i++) {
-		image(liveContainer,550 + ((i-1)*75),35,60,60);
+		image(liveContainer,550 + ((i-1)*75),25,60,60);
 	}
 	for (var i=1; i<= fish.life; i++) {
-		image(lives[i],540 + ((i-1)*75),25,75,75);
+		image(lives[i],540 + ((i-1)*75),15,75,75);
 	}
 
 	//bait
@@ -245,15 +288,12 @@ function game() {
 		if (bait[i].eaten == false) {
 			bait[i].show();
 		}
-		//if (bait[i].incorrect == true) {
-			//bait[i].show();
-		//}
 		if  (!bait[i].hits(fish) && bait[i].eaten == false && fish.selected == true) {
 			fish.off();
 		} else if (bait[i].hits(fish) && bait[i].eaten == false && fish.selected == false && bait[i] && bait[i].incorrect == false){
 			textSize(20);
-			text(bait[i].texts[bait[i].index], 10, 60);
-			text(bait[i].isBait[bait[i].index], 10, 90);
+			//text(bait[i].texts[bait[i].index], 10, 60);
+
 			current = i;
 			fish.on();
 			
@@ -296,13 +336,18 @@ function game() {
 	
 	if (selected != -1) {
 		imageMode(CENTER);
-		image(resultImg, width/2, height/2);
-		resultImg.resize(750,600);
+		fill(0,0,0);
+		image(testquestions[selected], width/2, height/2);
+		testquestions[selected].resize(850,600);
+		text(bait[selected].isBait[selected], 10, 90);
+		text(selected, 10, 150);
+		image(safe,(width/4)*3 + 200,height/2);//a
+		image(spam,(width/4) - 200,height/2);//d
 		imageMode(CORNER);
 		image(percentage,0,0,bait[selected].x,40);
-		if (keyIsDown(a)) {
+		if (keyIsDown(d)) {
 			bait[current].gotEaten();
-			if (bait[current].isBait[bait[current].index] == true){
+			if (bait[current].isBait[selected] == true){
 				score += 100;
 				
 				push();
@@ -322,9 +367,9 @@ function game() {
 			}
 			selected = -1;
 		}
-		if (keyIsDown(d)) {
+		if (keyIsDown(a)) {
 			bait[current].gotEaten();
-			if (bait[current].isBait[bait[current].index] == false){
+			if (bait[current].isBait[selected] == false){
 				score += 100;
 				correctSound.play();
 				bait[current].killBait();
@@ -349,6 +394,7 @@ function game() {
 	fish.setX(mx - 50);
 	fish.setY(my - 30);
 
+	//
 	if (score >= 1000) {
 		endScreen(true);
 	}else if( fish.life <= 0) {

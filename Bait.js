@@ -1,7 +1,7 @@
 function Bait(index) {
 	this.baity = 60;
 	this.baitx = 100;
-	this.textHeight = 125; 
+	this.textHeight = 150; 
 	
 	this.y = random() * ((0 + this.textHeight) - (height - this.baity)) + height - this.baity; //so bait can't spawn partially off screen
 	this.x = random(width,width + width); //spawn them offscreen to give a sense of movement
@@ -13,10 +13,7 @@ function Bait(index) {
 	
 	this.speed = 1;
 	
-	this.isBait = [true,false,false,false,true,true,false,false,false,false];
-	this.texts = ["https://uozone2.uottawa.ca/","https://uozone2.uottavva.ca/","subject:Please respond urgently","Canada_Revenue_Agency@isis.ocn.ne.jp","noreply@noreply.cibc.com","shipment-tracking@amazon.ca","amazon@gmail.com","please send the following info: name, age, SIN",
-					"Your account has been compromised click here to reset your password: Log in to confirm your account", "Dear Customer"];
-	
+	this.isBait = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false];
 	this.eaten = false;
 	this.incorrect = false;
 	
@@ -35,17 +32,8 @@ function Bait(index) {
 	this.spriteB.scale = .35;
 	
 	this.show = function () {
-		fill(100);
-		if (this.highlight && this.isBait[index]) {
-			fill(255,0,0); //incorrect
-		} else if(this.highlight && !this.isBait[index]) {
-			fill(0,255,0);//correct
-		}
 		drawSprites();
-		//image(baitFish[i],this.x-50,this.y-50,this.baitx+75,this.baity+ 120);
-
-	}
-	
+	}                            
 	this.crash = function () {
 		console.log("space");
 	}
