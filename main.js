@@ -52,6 +52,9 @@ var resultImg;
 var test;
 var paralax;
 
+var mx;
+var my;
+
 
 var fisherX = 200;
 var fisherY = 300;
@@ -167,6 +170,10 @@ function levelSelect() {
 function levelSelect2() {
 	levelStart.hide();
 	gameState = 1;
+	for (var i=0; i< bait.length; i++) {
+		bait[i].killBait();
+	}
+	fish.killBait();
 	background(color(245, 245, 220));
 	textSize(150);
 	title = "LEVEL SELECT";
@@ -262,14 +269,14 @@ function game() {
 					
 			} else if (bait[i].isBait[bait[i].index] == true && bait[i].eaten == false){
 				score -= 100;
-				//fish.takeDmg();
+				fish.takeDmg();
 					
 				push();
 				incorrectSound.play();
 				push();
 			}
-			//bait[i].remove();
-			//bait[i].spriteB.visible = false;
+
+			bait[i].killBait();
 			bait.splice(i,1);
 			bait.push(new Bait(floor(random(numText - 1))));
 		}
@@ -301,7 +308,7 @@ function game() {
 				push();
 				correctSound.play();
 				pop();
-				
+				bait[current].killBait();
 			} else {
 				score -= 100;
 				fish.takeDmg() ; //eat bait
@@ -311,6 +318,7 @@ function game() {
 				pop();
 				
 				bait[current].crash();
+				bait[current].killBait();
 			}
 			selected = -1;
 		}
@@ -319,6 +327,7 @@ function game() {
 			if (bait[current].isBait[bait[current].index] == false){
 				score += 100;
 				correctSound.play();
+				bait[current].killBait();
 			} else {
 				score -= 100;
 				fish.takeDmg() ; //eat bait
@@ -328,15 +337,18 @@ function game() {
 				pop();
 				
 				bait[current].crash();
+				bait[current].killBait();
 			}
 			selected = -1;
 		}
 	}
 	
 	//mouse movements
-	fish.setX(mouseX - 50);
-	fish.setY(mouseY - 30);
-	
+	mx = constrain(mouseX, 0 + 50,width - 50);
+	my = constrain(mouseY, 125 + 25,height - 25);
+	fish.setX(mx - 50);
+	fish.setY(my - 30);
+
 	if (score >= 1000) {
 		endScreen(true);
 	}else if( fish.life <= 0) {

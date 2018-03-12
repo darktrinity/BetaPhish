@@ -1,7 +1,7 @@
 function Bait(index) {
 	this.baity = 60;
 	this.baitx = 100;
-	this.textHeight = 100; 
+	this.textHeight = 125; 
 	
 	this.y = random() * ((0 + this.textHeight) - (height - this.baity)) + height - this.baity; //so bait can't spawn partially off screen
 	this.x = random(width,width + width); //spawn them offscreen to give a sense of movement
@@ -68,6 +68,11 @@ function Bait(index) {
 		this.eaten = true;
 		//this.endTime = new Date().getTime();
 		//this.aliveFor += this.endTime - this.startTime;
+	}
+	
+	this.killBait = function () {
+		this.spriteB.visible = false;
+		this.spriteB.life = 0;
 	}
 	
 	//movement
