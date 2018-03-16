@@ -1,5 +1,5 @@
 function Fish() {
-	this.life = 3;
+	this.life = 5;
 	
 	this.y = height/2;
 	this.x = width/2;

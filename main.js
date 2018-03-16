@@ -95,11 +95,11 @@ function preload() {
 	
 	liveContainer = loadImage("assets/score-container.png");
 	
-	for (var i=1; i<= 3; i++) {
+	for (var i=1; i<= 5; i++) {
 		lives[i]= loadImage("assets/life-"+i+".png");
 	}
 	
-	for (var i=0; i< 4; i++) {
+	for (var i=0; i<= 5 ; i++) {
 		rewardScreen[i]= loadImage("assets/score-"+i+".png");	
 	}
 	
@@ -294,7 +294,7 @@ function setupGame(){
 	mainMenu.remove();
 	//levelStart.hide();
 	score = 0;
-	life = 3;
+	life = 5;
 	bait = [];
 	timings = [];
 	shuffles();
@@ -318,7 +318,11 @@ function endScreen(win){
 	}
 	
 	if (win) {
-		if (fish.life == 3) {
+		if (fish.life == 5) {
+			image(rewardScreen[5], 0, 0);
+		} else if (fish.life == 4) {
+			image(rewardScreen[4], 0, 0);
+		} else if (fish.life == 3) {
 			image(rewardScreen[3], 0, 0);
 		} else if (fish.life == 2) {
 			image(rewardScreen[2], 0, 0);
@@ -370,7 +374,7 @@ function game() {
 	text(score,10,60);
 	text("Lives:",480,60);
 	
-	for (var i=1; i<= 3; i++) {
+	for (var i=1; i<= fish.life; i++) {
 		image(liveContainer,550 + ((i-1)*75),25,60,60);
 	}
 	for (var i=1; i<= fish.life; i++) {
@@ -446,14 +450,14 @@ function game() {
 		if (mouseIsPressed && mouseButton === RIGHT) {
 			endTime = Date.now();
 			timings.push((endTime - startTime)*0.001); 
-			bait[current].gotEaten();
-			if (bait[current].isBait[selected] == true){
+			bait[selected].gotEaten();
+			if (bait[selected].isBait[selected] == true){
 				score += 100;
 				
 				push();
 				correctSound.play();
 				pop();
-				bait[current].killBait();
+				bait[selected].killBait();
 			} else {
 				score -= 100;
 				fish.takeDmg() ; //eat bait
@@ -462,18 +466,18 @@ function game() {
 				incorrectSound.play();
 				pop();
 				
-				bait[current].killBait();
+				bait[selected].killBait();
 			}
 			selected = -1;
 		}
 		if (mouseIsPressed && mouseButton === LEFT) {
 			endTime = Date.now();
 			timings.push((endTime - startTime)*0.001); 
-			bait[current].gotEaten();
-			if (bait[current].isBait[selected] == false){
+			bait[selected].gotEaten();
+			if (bait[selected].isBait[selected] == false){
 				score += 100;
 				correctSound.play();
-				bait[current].killBait();
+				bait[selected].killBait();
 			} else {
 				score -= 100;
 				fish.takeDmg() ; //eat bait
@@ -482,7 +486,7 @@ function game() {
 				incorrectSound.play();
 				pop();
 				
-				bait[current].killBait();
+				bait[selected].killBait();
 			}
 			selected = -1;
 		}
