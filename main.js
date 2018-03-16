@@ -107,8 +107,8 @@ function preload() {
 		testquestions[i]= loadImage("assets/PhishingTest/test_"+i+".png");	
 	}
 	
-	spam = loadImage("assets/btn-spam.png");
-	safe = loadImage("assets/btn-safe.png");
+	spam = loadImage("assets/leftclickicon.png");
+	safe = loadImage("assets/rightclickicon.png");
 	
 	btn1 = createImg("assets/btn1Play.png","btn1");
 	btn2 =  createImg("assets/btn2Controls.png","btn2");
@@ -527,7 +527,7 @@ function draw() {
 }
 
 function keyTyped() {
-	if (key == ' '){
+	if (key == ' ' && selected == -1){
 		if (bait[current].hits(fish) && bait[current].eaten == false) {
 			selected = current;
 			startTime = Date.now();
