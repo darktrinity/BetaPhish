@@ -135,7 +135,7 @@ function preload() {
 	
 	song = loadSound("sounds/Pomegranate.mp3");
 	ambiance = loadSound("sounds/river.mp3");
-	correctSound = loadSound("sounds/correct.wav");
+	correctSound = loadSound("sounds/bubble1.wav");
 	incorrectSound  = loadSound("sounds/Fish Splashing.wav");
 	
 	document.addEventListener('contextmenu', event => event.preventDefault());
