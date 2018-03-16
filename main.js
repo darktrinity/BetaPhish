@@ -374,7 +374,7 @@ function game() {
 	text(score,10,60);
 	text("Lives:",480,60);
 	
-	for (var i=1; i<= fish.life; i++) {
+	for (var i=1; i<= 5; i++) {
 		image(liveContainer,550 + ((i-1)*75),25,60,60);
 	}
 	for (var i=1; i<= fish.life; i++) {
