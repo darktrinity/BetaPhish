@@ -30,7 +30,7 @@ var spam;
 var safe;
 var splot;
 
-var testQuestionsTF = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false];
+var testQuestionsTF = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false,false,false,true, false];
 
 var controls;
 var backBtn;
@@ -56,7 +56,7 @@ var selected = -1;
 var title;
 
 var current = -1;
-var numText = 15;
+var numText = 20;
 var score = 0;
 
 var gameState = 0;
@@ -103,7 +103,7 @@ function preload() {
 		rewardScreen[i]= loadImage("assets/score-"+i+".png");	
 	}
 	
-	for (var i=0; i< 15; i++) {
+	for (var i=0; i< 20; i++) {
 		testquestions[i]= loadImage("assets/PhishingTest/test_"+i+".png");	
 	}
 	
