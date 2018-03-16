@@ -28,6 +28,7 @@ var bait = [];
 var percentage;
 var spam;
 var safe;
+var splot;
 
 var testQuestionsTF = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false];
 
@@ -79,10 +80,14 @@ var startTime;
 var endTime;
 var timings = [];
 
+
 function preload() {
 	betaPhish = loadImage("assets/logo-xl.png");
 	signature = loadImage("assets/thanh-wordmark.png");
 	fisher = loadImage("assets/fisherman.png");
+	
+	splot = loadImage("assets/cursor.png");
+	
 	for (var i=1; i<= 4; i++) {
 		paralax[i]= loadImage("assets/home_mtn_"+i+".png");	
 	}
@@ -164,6 +169,8 @@ function setup() {
 
 ///////////////////////////////////////////
 function initGame() {
+	//cursor(splot);
+	
 	
 	song.stop();
 	song.setVolume(.2);
