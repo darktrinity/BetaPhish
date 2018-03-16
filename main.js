@@ -30,7 +30,7 @@ var spam;
 var safe;
 var splot;
 
-var testQuestionsTF = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false,false,false,true, false];
+var testQuestionsTF = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false,false,false,true,true,false];
 
 var controls;
 var backBtn;
