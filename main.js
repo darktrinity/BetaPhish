@@ -11,8 +11,10 @@ var d = 68;
 var s = 83;
 
 //sound effects
-var correctSound = new Audio("sounds/correct.wav");
-var incorrectSound  = new Audio("sounds/incorrect.wav");
+var correctSound;
+var incorrectSound;
+var song;
+var ambiance;
 
 //images
 var betaPhish;
@@ -26,6 +28,8 @@ var bait = [];
 var percentage;
 var spam;
 var safe;
+
+var testQuestionsTF = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false];
 
 var controls;
 var backBtn;
@@ -51,7 +55,7 @@ var selected = -1;
 var title;
 
 var current = -1;
-var numText = 14;
+var numText = 15;
 var score = 0;
 
 var gameState = 0;
@@ -62,16 +66,18 @@ var startBtn;
 
 var button1On = false;
 var resultImg;
-
+var counters = 0;
 var test;
 var paralax;
 
 var mx;
 var my;
-
-
 var fisherX = 200;
 var fisherY = 300;
+
+var startTime;
+var endTime;
+var timings = [];
 
 function preload() {
 	betaPhish = loadImage("assets/logo-xl.png");
@@ -121,6 +127,34 @@ function preload() {
 	bar = loadImage("assets/percentage.png"); 
 	
 	myFont = loadFont ("assets/fonts/mangat.ttf");
+	
+	song = loadSound("sounds/Pomegranate.mp3");
+	ambiance = loadSound("sounds/river.mp3");
+	correctSound = loadSound("sounds/correct.wav");
+	incorrectSound  = loadSound("sounds/Fish Splashing.wav");
+	
+	document.addEventListener('contextmenu', event => event.preventDefault());
+}
+
+function shuffles() {
+  var currentIndex = numText - 1, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = testquestions[currentIndex];
+    testquestions[currentIndex] = testquestions[randomIndex];
+    testquestions[randomIndex] = temporaryValue;
+	
+	temporaryValue = testQuestionsTF[currentIndex];
+    testQuestionsTF[currentIndex] = testQuestionsTF[randomIndex];
+    testQuestionsTF[randomIndex] = temporaryValue;
+  }
 }
 
 function setup() {
@@ -130,6 +164,15 @@ function setup() {
 
 ///////////////////////////////////////////
 function initGame() {
+	
+	song.stop();
+	song.setVolume(.2);
+	song.loop();
+	
+	ambiance.stop();
+	ambiance.setVolume(.2);
+	ambiance.play();
+	
 	playAgain.remove();
 	//mainMenu.remove();
 	backBtn.remove();
@@ -141,7 +184,6 @@ function initGame() {
 	for (var i=1; i<= 4; i++) {
 		image(paralax[i],0 - (i * 2),0,1300,300);
 	}
-	
 	
 	image(betaPhish,width - 450,10);
 	image(signature,50,height - 100);
@@ -225,27 +267,6 @@ function backOff(){
 	backBtn = createImg("assets/btn3Back.png","btn6").position(0 + 25, 0 + 25).mouseOver(backOn);
 }
 ///////////////////////////////////////////
-/*
-function levelSelect() {
-	btn1.remove();
-	btn2.remove();
-	btn3.remove();
-	playAgain.remove();
-	mainMenu.remove();
-	
-	gameState = 1;
-	background(color(245, 245, 220));
-	textSize(150);
-	title = "LEVEL SELECT";
-	fill(255);
-	tw = textWidth(title);
-	text(title, (width - tw)/2, height/2 - 40);
-	levelStart = createButton('Level 1');
-	levelStart.position(width/2 - levelStart.width/2, height/2);
-	levelStart.mousePressed(setupGame);
-	noLoop();
-}
-*/
 
 function levelSelect2() {
 	levelStart.hide();
@@ -268,12 +289,15 @@ function setupGame(){
 	score = 0;
 	life = 3;
 	bait = [];
+	timings = [];
+	shuffles();
 	gameState = 2;
 	fish = new Fish();
 	shark = new Enemy(0);
 	eel = new Enemy(1);
 	for (var i=0; i<10; i++) {
-		bait.push(new Bait(floor(random(numText - 1))));
+		bait.push(new Bait(i,testQuestionsTF));
+		counters++;
 	}
 	loop();
 }
@@ -338,6 +362,7 @@ function game() {
 	image(reverse,0,0 - 100,1300,300);
 	text(score,10,60);
 	text("Lives:",480,60);
+	
 	for (var i=1; i<= 3; i++) {
 		image(liveContainer,550 + ((i-1)*75),25,60,60);
 	}
@@ -384,7 +409,8 @@ function game() {
 
 			bait[i].killBait();
 			bait.splice(i,1);
-			bait.push(new Bait(floor(random(numText - 1))));
+			bait.push(new Bait(counters,testQuestionsTF));
+			counters++;
 		}
 		if (shark.hits(fish)) {
 			//fish.takeDmg();
@@ -395,7 +421,6 @@ function game() {
 		
 		bait[i].incSpeed(globalSpeed);
 	}
-	
 	//fish
 	fish.update();
 	fish.show();
@@ -411,7 +436,9 @@ function game() {
 		image(spam,(width/4) - 200,height/2);//d
 		imageMode(CORNER);
 		image(percentage,0,0,bait[selected].x,40);
-		if (keyIsDown(d)) {
+		if (mouseIsPressed && mouseButton === RIGHT) {
+			endTime = Date.now();
+			timings.push((endTime - startTime)*0.001); 
 			bait[current].gotEaten();
 			if (bait[current].isBait[selected] == true){
 				score += 100;
@@ -428,12 +455,13 @@ function game() {
 				incorrectSound.play();
 				pop();
 				
-				bait[current].crash();
 				bait[current].killBait();
 			}
 			selected = -1;
 		}
-		if (keyIsDown(a)) {
+		if (mouseIsPressed && mouseButton === LEFT) {
+			endTime = Date.now();
+			timings.push((endTime - startTime)*0.001); 
 			bait[current].gotEaten();
 			if (bait[current].isBait[selected] == false){
 				score += 100;
@@ -447,19 +475,17 @@ function game() {
 				incorrectSound.play();
 				pop();
 				
-				bait[current].crash();
 				bait[current].killBait();
 			}
 			selected = -1;
 		}
 	}
-	
 	//mouse movements
 	mx = constrain(mouseX, 0 + 50,width - 50);
 	my = constrain(mouseY, 125 + 25,height - 25);
 	fish.setX(mx - 50);
 	fish.setY(my - 30);
-
+	
 	//
 	if (score >= 1000) {
 		endScreen(true);
@@ -493,6 +519,7 @@ function keyTyped() {
 	if (key == ' '){
 		if (bait[current].hits(fish) && bait[current].eaten == false) {
 			selected = current;
+			startTime = Date.now();
 		}
 	}
 }

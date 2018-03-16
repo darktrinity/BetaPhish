@@ -1,4 +1,4 @@
-function Bait(index) {
+function Bait(index,tf) {
 	this.baity = 60;
 	this.baitx = 100;
 	this.textHeight = 150; 
@@ -13,7 +13,7 @@ function Bait(index) {
 	
 	this.speed = 1;
 	
-	this.isBait = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false];
+	this.isBait = tf;
 	this.eaten = false;
 	this.incorrect = false;
 	
@@ -34,9 +34,6 @@ function Bait(index) {
 	this.show = function () {
 		drawSprites();
 	}                            
-	this.crash = function () {
-		console.log("space");
-	}
 	
 	this.incSpeed = function (increment) {
 		this.speed = increment;
@@ -54,8 +51,6 @@ function Bait(index) {
 	
 	this.gotEaten = function () {
 		this.eaten = true;
-		//this.endTime = new Date().getTime();
-		//this.aliveFor += this.endTime - this.startTime;
 	}
 	
 	this.killBait = function () {
