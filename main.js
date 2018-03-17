@@ -135,8 +135,8 @@ function preload() {
 	
 	song = loadSound("sounds/Pomegranate.mp3");
 	ambiance = loadSound("sounds/river.mp3");
-	correctSound = loadSound("sounds/bubble1.wav");
-	incorrectSound  = loadSound("sounds/Fish Splashing.wav");
+	correctSound = loadSound("sounds/Fish Splashing.wav");
+	incorrectSound  = loadSound("sounds/reel.mp3");
 	
 	document.addEventListener('contextmenu', event => event.preventDefault());
 }
@@ -402,6 +402,7 @@ function game() {
 		}
 		if (bait[i].offscreen()) { //removes when off screen
 			if (i == selected) selected = -1;
+			/*
 			if (bait[i].isBait[bait[i].index] == false && bait[i].eaten == false) {
 				score += 100;
 					
@@ -416,12 +417,14 @@ function game() {
 				push();
 				incorrectSound.play();
 				push();
-			}
+			}*/
 
-			bait[i].killBait();
-			bait.splice(i,1);
-			bait.push(new Bait(counters,testQuestionsTF));
-			counters++;
+			//bait[i].killBait();
+			//bait.splice(i,1);
+			//bait.push(new Bait(counters,testQuestionsTF));
+			//counters++;
+			bait[i].y = random() * ((0 + bait[i].textHeight) - (height - bait[i].baity)) + height - bait[i].baity; //so bait can't spawn partially off screen
+			bait[i].x = random(width,width + width); //spawn them offscreen to give a sense of movement
 		}
 		if (shark.hits(fish)) {
 			//fish.takeDmg();
@@ -517,7 +520,7 @@ function draw() {
 		game();//level
 	}
 	else if (gameState == 3) {
-		if (score >= 1000) {
+		if (bait[i].length == 0) {
 			endScreen(true);
 		}
 		else if( fish.life <= 0) {
