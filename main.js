@@ -30,6 +30,7 @@ var spam;
 var safe;
 var splot;
 
+
 var testQuestionsTF = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false,false,false,true,true,false];
 
 var controls;
@@ -80,6 +81,7 @@ var startTime;
 var endTime;
 var timings = [];
 
+var totalLeft = 15;
 
 function preload() {
 	betaPhish = loadImage("assets/logo-xl.png");
@@ -302,7 +304,7 @@ function setupGame(){
 	fish = new Fish();
 	shark = new Enemy(0);
 	eel = new Enemy(1);
-	for (var i=0; i<10; i++) {
+	for (var i=0; i<15; i++) {
 		bait.push(new Bait(i,testQuestionsTF));
 		counters++;
 	}
@@ -451,6 +453,7 @@ function game() {
 		imageMode(CORNER);
 		image(percentage,0,0,bait[selected].x,40);
 		if (mouseIsPressed && mouseButton === RIGHT) {
+			totalLeft -= 1;
 			endTime = Date.now();
 			timings.push((endTime - startTime)*0.001); 
 			bait[selected].gotEaten();
@@ -474,6 +477,7 @@ function game() {
 			selected = -1;
 		}
 		if (mouseIsPressed && mouseButton === LEFT) {
+			totalLeft -= 1;
 			endTime = Date.now();
 			timings.push((endTime - startTime)*0.001); 
 			bait[selected].gotEaten();
@@ -490,6 +494,7 @@ function game() {
 				pop();
 				
 				bait[selected].killBait();
+
 			}
 			selected = -1;
 		}
@@ -501,7 +506,7 @@ function game() {
 	fish.setY(my - 30);
 	
 	//
-	if (score >= 1000) {
+	if (totalLeft <= 0) {
 		endScreen(true);
 	}else if( fish.life <= 0) {
 		endScreen(false);
@@ -520,7 +525,7 @@ function draw() {
 		game();//level
 	}
 	else if (gameState == 3) {
-		if (bait[i].length == 0) {
+		if (totalLeft <= 0) {
 			endScreen(true);
 		}
 		else if( fish.life <= 0) {
