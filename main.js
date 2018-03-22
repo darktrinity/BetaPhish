@@ -44,7 +44,7 @@ var playAgain;
 var mainMenu;
 
 var bar;
-var reverse;
+var reverseM;
 var mountains = [];
 
 var testquestions = [];
@@ -58,6 +58,7 @@ var title;
 
 var current = -1;
 var numText = 20;
+var totalLeft = 15;
 var score = 0;
 
 var gameState = 0;
@@ -77,11 +78,20 @@ var my;
 var fisherX = 200;
 var fisherY = 300;
 
+
+
+//tracker
 var startTime;
 var endTime;
-var timings = [];
+var timings = []; //stores the time user takes to decide
+var actions = []; //stores if user was correct spam/correct real/incorrect spam/incorrect not spam
+var overallStart; //start time stamp
+var overallEnd; //end time stamp
+var numCorrect = 0; //total number of correct answers
+var numIncorrect = 0; //total number of incorrect answers
 
-var totalLeft = 15;
+
+
 
 function preload() {
 	betaPhish = loadImage("assets/logo-xl.png");
@@ -93,7 +103,7 @@ function preload() {
 	for (var i=1; i<= 4; i++) {
 		paralax[i]= loadImage("assets/home_mtn_"+i+".png");	
 	}
-	reverse = loadImage("assets/home_mtn_3 -reverse.png");	
+	reverseM = loadImage("assets/home_mtn_3 -reverse.png");	
 	
 	liveContainer = loadImage("assets/score-container.png");
 	
@@ -297,8 +307,15 @@ function setupGame(){
 	//levelStart.hide();
 	score = 0;
 	life = 5;
+	totalLeft = 15;
+	
 	bait = [];
 	timings = [];
+	actions = [];
+	overallStart = new Date();
+	numCorrect = 0;
+	numIncorrect = 0;
+	
 	shuffles();
 	gameState = 2;
 	fish = new Fish();
@@ -313,6 +330,7 @@ function setupGame(){
 
 ////////////////////////////////////////////////////
 function endScreen(win){
+	overallEnd = new Date();
 	background(color(245, 245, 220));
 	textSize(150);
 	for (var i=1; i<= 4; i++) {
@@ -343,6 +361,7 @@ function endScreen(win){
 	//mainMenu =  createImg("assets/btn2.png","btn5");
 	playAgain.position(width - 350,10 + 400).mouseOver(playAgainOn);
 	//mainMenu.position(width - 350,10 + 500).mouseOver(mainMenuOn);
+	output();
 	noLoop();
 }
 
@@ -372,7 +391,7 @@ function game() {
 	textSize(20);
 	textFont(myFont);
 	fill(0, 0, 0);
-	image(reverse,0,0 - 100,1300,300);
+	image(reverseM,0,0 - 100,1300,300);
 	text(score,10,60);
 	text("Lives:",480,60);
 	
@@ -404,35 +423,8 @@ function game() {
 		}
 		if (bait[i].offscreen()) { //removes when off screen
 			if (i == selected) selected = -1;
-			/*
-			if (bait[i].isBait[bait[i].index] == false && bait[i].eaten == false) {
-				score += 100;
-					
-				push();
-				correctSound.play();
-				pop();
-					
-			} else if (bait[i].isBait[bait[i].index] == true && bait[i].eaten == false){
-				score -= 100;
-				fish.takeDmg();
-					
-				push();
-				incorrectSound.play();
-				push();
-			}*/
-
-			//bait[i].killBait();
-			//bait.splice(i,1);
-			//bait.push(new Bait(counters,testQuestionsTF));
-			//counters++;
 			bait[i].y = random() * ((0 + bait[i].textHeight) - (height - bait[i].baity)) + height - bait[i].baity; //so bait can't spawn partially off screen
 			bait[i].x = random(width,width + width); //spawn them offscreen to give a sense of movement
-		}
-		if (shark.hits(fish)) {
-			//fish.takeDmg();
-		}
-		if (eel.hits(fish)) {
-			//fish.takeDmg();
 		}
 		
 		bait[i].incSpeed(globalSpeed);
@@ -452,14 +444,15 @@ function game() {
 		image(spam,(width/4) - 200,height/2);//d
 		imageMode(CORNER);
 		image(percentage,0,0,bait[selected].x,40);
-		if (mouseIsPressed && mouseButton === RIGHT) {
+		if (mouseIsPressed && mouseButton === RIGHT) {//safe
 			totalLeft -= 1;
 			endTime = Date.now();
-			timings.push((endTime - startTime)*0.001); 
+			timings.push(Math.round(((endTime - startTime)*0.001) * 100) / 100); 
 			bait[selected].gotEaten();
 			if (bait[selected].isBait[selected] == true){
 				score += 100;
-				
+				numCorrect++;
+				actions.push("Safe/C");
 				push();
 				correctSound.play();
 				pop();
@@ -467,6 +460,8 @@ function game() {
 			} else {
 				score -= 100;
 				fish.takeDmg() ; //eat bait
+				numIncorrect++;
+				actions.push("Safe/I");
 				
 				push();
 				incorrectSound.play();
@@ -476,18 +471,26 @@ function game() {
 			}
 			selected = -1;
 		}
-		if (mouseIsPressed && mouseButton === LEFT) {
+		if (mouseIsPressed && mouseButton === LEFT) {//spam
 			totalLeft -= 1;
 			endTime = Date.now();
-			timings.push((endTime - startTime)*0.001); 
+			timings.push(Math.round(((endTime - startTime)*0.001) * 100) / 100); 
 			bait[selected].gotEaten();
 			if (bait[selected].isBait[selected] == false){
 				score += 100;
+				numCorrect++;
+				actions.push("Spam/C");
+				
+				push();
 				correctSound.play();
+				pop();
 				bait[selected].killBait();
+				
 			} else {
 				score -= 100;
 				fish.takeDmg() ; //eat bait
+				numIncorrect++;
+				actions.push("Spam/I");
 				
 				push();
 				incorrectSound.play();
@@ -541,4 +544,18 @@ function keyTyped() {
 			startTime = Date.now();
 		}
 	}
+}
+
+function output() {
+	//window.alert(5 + 6);
+	console.log("Score:" + score);
+	console.log("Total answered:" + timings.length);
+	console.log("Timings:" + timings);
+	console.log("Total correct:" + numCorrect);
+	console.log("Total incorrect:" +numIncorrect);
+	console.log("Start time:" + overallStart);
+	console.log("End time:" + overallEnd);
+	console.log("Results:" + actions);
+	console.log("");
+	console.log("");
 }
