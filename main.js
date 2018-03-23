@@ -29,6 +29,7 @@ var percentage;
 var spam;
 var safe;
 var splot;
+var name;
 
 
 var testQuestionsTF = [true,false,false,false,true,true,false,true,false,true,true,true,false,true,false,false,false,true,true,false];
@@ -78,7 +79,7 @@ var my;
 var fisherX = 200;
 var fisherY = 300;
 
-
+//var FileSaver = require('file-saver');
 
 //tracker
 var startTime;
@@ -546,16 +547,30 @@ function keyTyped() {
 	}
 }
 
+
 function output() {
-	//window.alert(5 + 6);
+	name = prompt("Please enter your name:", "Your name here");
+	
+	alert("id:"+name +"\n"+ 
+	"Score:" + score +"\n"+
+	"Total answered:" + timings.length +"\n"+
+	"Timings:" + timings +"\n"+
+	"Total correct:" + numCorrect +"\n"+
+	"Total incorrect:" + numIncorrect +"\n"+
+	"Start time:" + overallStart +"\n"+
+	"End time:" + overallEnd +"\n"+
+	"Results:" + actions);
+	
+	console.log("id:"+name);
 	console.log("Score:" + score);
 	console.log("Total answered:" + timings.length);
 	console.log("Timings:" + timings);
 	console.log("Total correct:" + numCorrect);
-	console.log("Total incorrect:" +numIncorrect);
+	console.log("Total incorrect:" + numIncorrect);
 	console.log("Start time:" + overallStart);
 	console.log("End time:" + overallEnd);
 	console.log("Results:" + actions);
 	console.log("");
 	console.log("");
+	
 }
