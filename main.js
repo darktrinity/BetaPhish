@@ -607,7 +607,7 @@ function output() {
     console.log("Results:" + actions);
     console.log("");
     console.log("");
-
+/*
     div.textContent = ("Id:" + name + " \r\n");
     div.textContent += ("Score:" + score + " \r\n");
     div.textContent += ("Total answered:" + timings.length + " \r\n");
@@ -617,4 +617,5 @@ function output() {
     div.textContent += ("Start time:" + overallStart + " \r\n");
     div.textContent += ("End time:" + overallEnd + " \r\n");
     div.textContent += ("Results:" + actions + " \r\n");
+	*/
 }
