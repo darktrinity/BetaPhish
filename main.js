@@ -81,7 +81,6 @@ var fisherX = 200;
 var fisherY = 300;
 
 var switchs = 0;
-//var FileSaver = require('file-saver');
 
 //tracker
 var startTime;
@@ -95,7 +94,7 @@ var numIncorrect = 0; //total number of incorrect answers
 
 var pause = true;
 var incorrectAns = false;
-//var div = document.getElementById("field_name");
+var div = document.getElementById("field_name");
 var tempString;
 var spacebar = true;
 
@@ -372,10 +371,6 @@ function endScreen(win) {
         }
     } else if (!win) image(rewardScreen[0], 0, 0);
     fill(255);
-    //title = "Congratulations";
-    //tw = textWidth(title);
-    //text(title, (width - tw)/2, height/2 - 40);
-
     playAgain.show();
     //mainMenu.show();
     playAgain = createImg("assets/btn1Play.png", "btn4");
@@ -607,7 +602,7 @@ function output() {
     console.log("Results:" + actions);
     console.log("");
     console.log("");
-/*
+
     div.textContent = ("Id:" + name + " \r\n");
     div.textContent += ("Score:" + score + " \r\n");
     div.textContent += ("Total answered:" + timings.length + " \r\n");
@@ -617,5 +612,5 @@ function output() {
     div.textContent += ("Start time:" + overallStart + " \r\n");
     div.textContent += ("End time:" + overallEnd + " \r\n");
     div.textContent += ("Results:" + actions + " \r\n");
-	*/
+	
 }
