@@ -348,7 +348,7 @@ function setupGame() {
     }
     loop();
 }
-var mouseDown = 0;
+
 ////////////////////////////////////////////////////
 function endScreen(win) {
     overallEnd = new Date();
