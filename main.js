@@ -95,7 +95,7 @@ var numIncorrect = 0; //total number of incorrect answers
 
 var pause = true;
 var incorrectAns = false;
-var div = document.getElementById("field_name");
+//var div = document.getElementById("field_name");
 var tempString;
 var spacebar = true;
 
